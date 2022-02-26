@@ -26,3 +26,13 @@ def create(request):
         "widget_form": widget_form,
         "widget_list": widgets,
     })
+
+def delete(request, widget_id):
+    widget = Widget.objects.get(id=widget_id)
+    widget.delete()
+    widgets = Widget.objects.all()
+    widget_form = WidgetForm()
+    return redirect('/', {
+        "widget_form": widget_form,
+        "widget_list": widgets,
+    })
