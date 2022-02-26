@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.db.models import Sum
 
 # Add the following import
 from django.http import HttpResponse
@@ -10,9 +11,11 @@ from .models import Widget
 def index(request):
     widgets = Widget.objects.all()
     widget_form = WidgetForm()
+    widget_total = Widget.objects.aggregate(Sum('quantity'))["quantity__sum"]
     return render(request, 'index.html', {
         "widget_form": widget_form,
         "widget_list": widgets,
+        "widget_total": widget_total
     })
 
 def create(request):
@@ -22,9 +25,11 @@ def create(request):
         add_widget.save()
     widgets = Widget.objects.all()
     widget_form = WidgetForm()
+    widget_total = Widget.objects.aggregate(Sum('quantity'))["quantity__sum"]
     return redirect('/', {
         "widget_form": widget_form,
         "widget_list": widgets,
+        "widget_total": widget_total
     })
 
 def delete(request, widget_id):
@@ -32,7 +37,9 @@ def delete(request, widget_id):
     widget.delete()
     widgets = Widget.objects.all()
     widget_form = WidgetForm()
+    widget_total = Widget.objects.aggregate(Sum('quantity'))["quantity__sum"]
     return redirect('/', {
         "widget_form": widget_form,
         "widget_list": widgets,
+        "widget_total": widget_total
     })
