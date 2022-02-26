@@ -5,4 +5,4 @@ from django.http import HttpResponse
 
 # Define the home view
 def index(request):
-  return HttpResponse('<h1>Hello /ᐠ｡‸｡ᐟ\ﾉ</h1>')
+  return render(request, 'index.html')
